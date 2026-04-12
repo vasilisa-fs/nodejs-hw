@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import { Note } from '../models/note.js';
 
 export const getAllNotes = async (req, res) => {
-  const { page = 10, perPage = 1, tag, search } = req.query;
+  const { page = 1, perPage = 10, tag, search } = req.query;
   const skip = (page - 1) * perPage;
 
   const notesQuery = Note.find({ userId: req.user._id });
@@ -44,7 +44,6 @@ export const getAllNotes = async (req, res) => {
     totalNotes,
     totalPages,
     notes,
-    isEmpty: totalNotes === 0,
   });
 };
 
