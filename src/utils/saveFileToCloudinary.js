@@ -16,11 +16,6 @@ export async function saveFileToCloudinary(buffer, userId) {
         resource_type: 'image',
         public_id: `avatar_${userId}`,
         overwrite: true,
-        unique_filename: false,
-        transformation: [
-          { width: 300, height: 300, crop: 'fill', gravity: 'auto' },
-          { fetch_format: 'auto', quality: 'auto' },
-        ],
       },
       (err, result) => {
         if (err) {
