@@ -8,7 +8,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function saveFileToCloudinary(buffer, userId) {
+export const saveFileToCloudinary = async (buffer, userId) => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
@@ -16,17 +16,18 @@ export async function saveFileToCloudinary(buffer, userId) {
         resource_type: 'image',
         public_id: `avatar_${userId}`,
         overwrite: true,
+        unique_filename: false,
       },
-      (err, result) => {
+      (err, res) => {
         if (err) {
           return reject(err);
         }
-        resolve(result);
+        resolve(res);
       },
 
-      // (err, result) => (err ? reject(err) : resolve(result)),
+      // (err, res) => (err ? reject(err) : resolve(res)),
     );
 
     Readable.from(buffer).pipe(uploadStream);
   });
-}
+};
